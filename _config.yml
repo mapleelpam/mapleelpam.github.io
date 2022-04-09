@@ -30,6 +30,8 @@ twitter_username: N/A
 github_username: mapleelpam
 
 domain: mapleelpam.github.io
+baseurl: /quotation
+url: http://mapleelpam.github.io
 
 
 # Build settings
