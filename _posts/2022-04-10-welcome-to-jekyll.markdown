@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
+title:  "FUCK"
 date:   2022-04-10 00:58:50 +0800
 categories: jekyll update
 ---
