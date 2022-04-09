@@ -35,7 +35,7 @@ url: http://mapleelpam.github.io
 
 
 # Build settings
-theme: jekyll-theme-cayman
+theme: jekyll-theme-minimal
 #remote_them: benbalter/retlab
 plugins:
   - jekyll-feed
