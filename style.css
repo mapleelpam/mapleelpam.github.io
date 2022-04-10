@@ -2,10 +2,36 @@
   width: 80%;
   margin: 20px auto;
 }
+
+.bodyheader {
+	display: flex;
+	flex-direction: row;
+
+	align-items: center;
+	float: right;
+}
+
+.translate {
+	color: blue;	
+	text-color: white;
+	text-decoration: underline;
+	width:100px;　
+
+	line-height:50px;　
+	display: block;
+	float: right;
+}
+.translate:hover {
+	background-color: #999;
+	color: white; 
+}
+
 table {
   border-spacing: 0;
   width: 100%;
   text-align: left;
+  display: block;
+  float: center;
 }
 tr {
   text-align: left;
