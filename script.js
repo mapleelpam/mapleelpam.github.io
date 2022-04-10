@@ -1,5 +1,6 @@
 // Code goes here
 
+console.log ( "first ");
 function update_body( lang = "en" ) {
 	console.log(" update_body -> lang = "+lang);
 	var table_string = "";
@@ -93,4 +94,8 @@ function update_body( lang = "en" ) {
 	});
 }
 
-update_body();
+const urlParams = new URLSearchParams(window.location.search);
+console.log ( "hello " + urlParams );
+console.log ( "hey ");
+const lang = urlParams.get('lang');
+update_body( lang );
