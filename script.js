@@ -6,23 +6,32 @@ function update_body( lang = "en" ) {
 
 	$.getJSON("db.json"). then( function(json) {
 		if( lang == "zh" ) {
-			console.log("中文  click zh 中文");
-
 
 			table_string += "<div class=\"main\">  <table> <thead> \n" + 
 				"<th> 品種 </th> \n" + 
-				"<th>Type</th> <th>City From</th> <th>From</th> <th>Enviroment</th> <th>Gram/Box</th> <th>Harvest Date</th><th>Instagram</th> </thead> \n <tbody> ";
+				"<th> 型態 </th> \n" + 
+				"<th> 市/縣 </th> <th> 產地 </th> <th> 環境 </th> <th>克/盒</th> <th>採摘/制作</th><th>Instagram</th> </thead> \n <tbody> ";
+
+			var pt_dict = { "HongCha": "紅茶",
+					"BianCha": "扁茶",
+					"Green": "綠茶",
+					"Oriental Beauty":"白毫烏龍" };
+
+			var env_dict ={ "Wild": "野放",
+					"Pure Wild": "純野",
+					"Wild/ OldBush": "野放老欉"
+					 };
 
 			for( var idx in json ) {
 
 				table_string +=  "<tr>\n";
-				table_string +=  "<td>" + json[idx]["cultivar_en"] + " </td> \n";
-				table_string +=  "<td>" + json[idx]["process_type"] + " </td> \n";
+				table_string +=  "<td>" + json[idx]["cultivar_zh"] + " </td> \n";
+				table_string +=  "<td>" + pt_dict[json[idx]["process_type"]] + " </td> \n";
 
-				table_string +=  "<td>" + json[idx]["harvest_city_en"] + " </td> \n";
-				table_string +=  "<td>" + json[idx]["harvest_area_en"] + " </td> \n";
+				table_string +=  "<td>" + json[idx]["harvest_city_zh"] + " </td> \n";
+				table_string +=  "<td>" + json[idx]["harvest_area_zh"] + " </td> \n";
 
-				table_string +=  "<td>" + json[idx]["cleaness"] + " </td> \n";
+				table_string +=  "<td>" + env_dict[json[idx]["cleaness"]] + " </td> \n";
 				table_string +=  "<td>" + json[idx]["gram_per_box"] + "g/Box </td> \n";
 
 				table_string +=  "<td>" + json[idx]["harvest_date"] + " </td> \n";
