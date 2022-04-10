@@ -69,7 +69,7 @@ function update_body( lang = "en" ) {
 				table_string +=  "<td>" + json[idx]["harvest_date"] + " </td> \n";
 
 				if( json[idx]["instagram_url"] == null ) {
-					table_string +=  "<td> empty </td>\n";
+					table_string +=  "<td> N/A </td>\n";
 				} else {
 					table_string +=  "<td> <a href="+json[idx]["instagram_url"]+">instagram </a> </td>";
 				}
