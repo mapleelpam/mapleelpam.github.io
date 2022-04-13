@@ -16,13 +16,15 @@ function update_body( lang = "en" ) {
 				" <th>採摘/制作</th><th>Instagram</th> </thead> \n <tbody> ";
 
 			var pt_dict = { "HongCha": "紅茶",
+					"BaoZhong": "包種",
 					"BianCha": "扁茶",
 					"Green": "綠茶",
-					"Oriental Beauty":"白毫烏龍" };
+					"OrientalBeauty":"白毫烏龍" };
 
 			var env_dict ={ "Wild": "野放",
-					"Pure Wild": "純野",
-					"Wild/ OldBush": "野放老欉"
+					"PureWild": "純野",
+					"WildAndOldBush": "野放老欉",
+					"WildAndTallBush": "野放高欉"
 					 };
 
 			for( var idx in json ) {
@@ -35,13 +37,16 @@ function update_body( lang = "en" ) {
 				table_string +=  "<td>" + json[idx]["harvest_area_zh"] + " </td> \n";
 
 				table_string +=  "<td>" + env_dict[json[idx]["cleaness"]] + " </td> \n";
-				table_string +=  "<td>" + json[idx]["gram_per_box"] + "g/Box </td> \n";
+				if( json[idx]["gram_per_box"] == null || json[idx]["gram_per_box"] == "0" ) {
+					table_string +=  "<td>NotPackYet </td> \n"; 
+				} else
+					table_string +=  "<td>" + json[idx]["gram_per_box"] + "g/Box </td> \n";
 
 				table_string +=  "<td>" + json[idx]["solar_term"] + " </td> \n";
 				table_string +=  "<td>" + json[idx]["harvest_date"] + " </td> \n";
 
 				if( json[idx]["instagram_url"] == null ) {
-					table_string +=  "<td> empty </td>\n";
+					table_string +=  "<td> not avaliable</td>\n";
 				} else {
 					table_string +=  "<td> <a href="+json[idx]["instagram_url"]+">instagram </a> </td>";
 				}
@@ -67,7 +72,10 @@ function update_body( lang = "en" ) {
 				table_string +=  "<td>" + json[idx]["harvest_area_en"] + " </td> \n";
 
 				table_string +=  "<td>" + json[idx]["cleaness"] + " </td> \n";
-				table_string +=  "<td>" + json[idx]["gram_per_box"] + "g/Box </td> \n";
+				if( json[idx]["gram_per_box"] == null || json[idx]["gram_per_box"] == "0" ) {
+					table_string +=  "<td>NotPackYet </td> \n"; 
+				} else
+					table_string +=  "<td>" + json[idx]["gram_per_box"] + "g/Box </td> \n";
 
 				table_string +=  "<td>" + json[idx]["harvest_date"] + " </td> \n";
 

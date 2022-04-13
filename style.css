@@ -4,11 +4,12 @@
 }
 
 .bodyheader {
-	display: flex;
-	flex-direction: row;
+	display: block;
+/*	flex-direction: row;
 
+*/
 	align-items: center;
-	float: right;
+/*	float: right; */
 }
 
 .translate {
@@ -17,9 +18,10 @@
 	text-decoration: underline;
 	width:100px;　
 
-	line-height:50px;　
+/*	line-height:50px;　
 	display: block;
-	float: right;
+//	float: center;
+*/
 }
 .translate:hover {
 	background-color: #999;
