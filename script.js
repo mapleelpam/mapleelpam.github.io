@@ -38,7 +38,7 @@ function update_body( lang = "en" ) {
 
 				table_string +=  "<td>" + env_dict[json[idx]["cleaness"]] + " </td> \n";
 				if( json[idx]["gram_per_box"] == null || json[idx]["gram_per_box"] == "0" ) {
-					table_string +=  "<td>NotPackYet </td> \n"; 
+					table_string +=  "<td>尚未包裝</td> \n"; 
 				} else
 					table_string +=  "<td>" + json[idx]["gram_per_box"] + "g/Box </td> \n";
 
