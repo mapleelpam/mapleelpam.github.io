@@ -2,7 +2,6 @@
 
 console.log ( "first ");
 function update_body( lang = "en" ) {
-	console.log(" update_body -> lang = "+lang);
 	var table_string = "";
 
 	$.getJSON("db.json"). then( function(json) {
@@ -96,6 +95,7 @@ function update_body( lang = "en" ) {
 		$(".translate").click(function() {
 			console.log(" click ");
 			var lang = $(this).attr("id"); 
+			window.history.replaceState(null, null, "?lang="+lang); 
 			update_body( lang );
 		});
 	
