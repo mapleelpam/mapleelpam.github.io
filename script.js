@@ -21,6 +21,7 @@ function update_body( lang = "en" ) {
 					"OrientalBeauty":"白毫烏龍" };
 
 			var env_dict ={ "Wild": "野放",
+					"SemiWild": "半野",
 					"PureWild": "純野",
 					"WildAndOldBush": "野放老欉",
 					"WildAndTallBush": "野放高欉"
