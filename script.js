@@ -16,6 +16,7 @@ function update_body( lang = "en" ) {
 
 			var pt_dict = { "HongCha": "紅茶",
 					"BaoZhong": "包種",
+					"CharcoalBaoZhong": "炭焙包種",
 					"BianCha": "扁茶",
 					"Green": "綠茶",
 					"OrientalBeauty":"白毫烏龍" };
