@@ -12,6 +12,15 @@
 /*	float: right; */
 }
 
+.bodybottom{
+	display: block;
+/*	flex-direction: row;
+
+*/
+	align-items: center;
+/*	float: right; */
+}
+
 .translate {
 	color: blue;	
 	text-color: white;
@@ -27,6 +36,7 @@
 	background-color: #999;
 	color: white; 
 }
+
 
 table {
   border-spacing: 0;

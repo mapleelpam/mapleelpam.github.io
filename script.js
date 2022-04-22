@@ -1,7 +1,7 @@
 // Code goes here
 
 console.log ( "first ");
-function update_body( lang = "en" ) {
+function update_body( lang = "en", show_price = false ) {
 	var table_string = "";
 
 	$.getJSON("db.json"). then( function(json) {
@@ -10,8 +10,9 @@ function update_body( lang = "en" ) {
 			table_string += "<table> <thead> \n" + 
 				"<th> 品種 </th> \n" + 
 				"<th> 型態 </th> \n" + 
-				"<th> 市/縣 </th> <th> 產地 </th> <th> 環境 </th> <th>克/盒</th> \n"+ 
-				"<th> 節氣 </th>\n"+
+				"<th> 市/縣 </th> <th> 產地 </th> <th> 環境 </th> <th>克/盒</th> \n";
+			if( show_price ) { table_string += "<th>USD/Box</th>"; }
+			table_string +=  "<th> 節氣 </th>\n"+
 				" <th>採摘/制作</th><th>Instagram</th> </thead> \n <tbody> ";
 
 			var pt_dict = { "HongCha": "紅茶",
@@ -42,6 +43,9 @@ function update_body( lang = "en" ) {
 					table_string +=  "<td>尚未包裝</td> \n"; 
 				} else
 					table_string +=  "<td>" + json[idx]["gram_per_box"] + "g/Box </td> \n";
+				if( show_price ) 
+					table_string +=  "<td>" + json[idx]["price_per_box"] + "g/Box </td> \n";
+					
 
 				table_string +=  "<td>" + json[idx]["solar_term"] + " </td> \n";
 				table_string +=  "<td>" + json[idx]["harvest_date"] + " </td> \n";
@@ -61,7 +65,11 @@ function update_body( lang = "en" ) {
 
 			table_string += "<div class=\"main\">  <table> <thead> \n" + 
 				"<th>Cultivar Name </th> \n" + 
-				"<th>Type</th> <th>City From</th> <th>From</th> <th>Enviroment</th> <th>Gram/Box</th> <th>Harvest Date</th><th>Instagram</th> </thead> \n <tbody> ";
+				"<th>Type</th> <th>City From</th> <th>From</th> <th>Enviroment</th> <th>Gram/Box</th>";
+
+			if( show_price ) { table_string += "<th>USD/Box</th>"; }
+
+			table_string += "<th>Harvest Date</th><th>Instagram</th> </thead> \n <tbody> ";
 
 			for( var idx in json ) {
 
@@ -74,9 +82,16 @@ function update_body( lang = "en" ) {
 
 				table_string +=  "<td>" + json[idx]["cleaness"] + " </td> \n";
 				if( json[idx]["gram_per_box"] == null || json[idx]["gram_per_box"] == "0" ) {
-					table_string +=  "<td>NotPackYet </td> \n"; 
+					table_string +=  "<td>NotPackedYet </td> \n"; 
 				} else
 					table_string +=  "<td>" + json[idx]["gram_per_box"] + "g/Box </td> \n";
+
+				if( show_price ) {
+					if( json[idx]["price_per_box"] == null || json[idx]["price_per_box"] == "0" ) {
+						table_string +=  "<td> N/A </td> \n"; 
+					} else 
+						table_string +=  "<td>" + json[idx]["price_per_box"] + " </td> \n"; 
+				}
 
 				table_string +=  "<td>" + json[idx]["harvest_date"] + " </td> \n";
 
@@ -85,6 +100,8 @@ function update_body( lang = "en" ) {
 				} else {
 					table_string +=  "<td> <a href="+json[idx]["instagram_url"]+">instagram </a> </td>";
 				} 
+
+				
 
 				table_string +=  "</tr>\n";
 			}
@@ -101,6 +118,17 @@ function update_body( lang = "en" ) {
 			update_body( lang );
 		});
 	
+		$("#keyword").keyup(function(){
+//			$("#div").html($("#keyword").val())
+			//this._show_price = false;
+			if( $("#keyword").val() == "teamapletw" ) {
+				this._show_price = true;
+				update_body( lang, this._show_price );
+			} else if(this. _show_price == true ) {
+				this._show_price = false;
+				update_body( lang, this._show_price ); 
+			}
+		});
 	});
 }
 
