@@ -43,8 +43,12 @@ function update_body( lang = "en", show_price = false ) {
 					table_string +=  "<td>尚未包裝</td> \n"; 
 				} else
 					table_string +=  "<td>" + json[idx]["gram_per_box"] + "g/Box </td> \n";
-				if( show_price ) 
-					table_string +=  "<td>" + json[idx]["price_per_box"] + "g/Box </td> \n";
+				if( show_price ) {
+					if( json[idx]["price_per_box"] == null || json[idx]["price_per_box"] == "0" ) {
+						table_string +=  "<td> N/A </td> \n"; 
+					} else 
+						table_string +=  "<td class=\"price\">$" + json[idx]["price_per_box"] + "/Box </td> \n"; 
+				}
 					
 
 				table_string +=  "<td>" + json[idx]["solar_term"] + " </td> \n";
@@ -65,11 +69,11 @@ function update_body( lang = "en", show_price = false ) {
 
 			table_string += "<div class=\"main\">  <table> <thead> \n" + 
 				"<th>Cultivar Name </th> \n" + 
-				"<th>Type</th> <th>City From</th> <th>From</th> <th>Enviroment</th> <th>Gram/Box</th>";
+				"<th>Type</th> <th>City</th> <th>From</th> <th>Enviroment</th> <th>Gram/Box</th>";
 
 			if( show_price ) { table_string += "<th>USD/Box</th>"; }
 
-			table_string += "<th>Harvest Date</th><th>Instagram</th> </thead> \n <tbody> ";
+			table_string += "<th>Harvest</th><th>Instagram</th> </thead> \n <tbody> ";
 
 			for( var idx in json ) {
 
@@ -90,7 +94,7 @@ function update_body( lang = "en", show_price = false ) {
 					if( json[idx]["price_per_box"] == null || json[idx]["price_per_box"] == "0" ) {
 						table_string +=  "<td> N/A </td> \n"; 
 					} else 
-						table_string +=  "<td>" + json[idx]["price_per_box"] + " </td> \n"; 
+						table_string +=  "<td class=\"price\">$" + json[idx]["price_per_box"] + "/Box </td> \n"; 
 				}
 
 				table_string +=  "<td>" + json[idx]["harvest_date"] + " </td> \n";
