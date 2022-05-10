@@ -6,13 +6,19 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 	$.getJSON("db.json"). then( function(json) {
 		if( lang == "zh" ) {
 
-			table_string += "<table> <thead> \n" + 
-				"<th> 品種 </th> \n" + 
-				"<th> 型態 </th> \n" + 
-				"<th> 市/縣 </th> <th> 產地 </th> <th> 環境 </th> <th>克/盒</th> \n";
+			table_string += "<table> <thead> \n" ; 
+			if(show_fullname == "true" ) 
+				table_string += "<th>FullName</th>";
+			else
+				table_string += "<th> 品種 </th> \n" + 
+					"<th> 型態 </th> \n" + 
+					"<th> 市/縣 </th> <th> 產地 </th> <th> 環境 </th>\n";
+			table_string += "<th> 克/盒 </th> \n" ; 
 			if( show_price ) { table_string += "<th>USD/Box</th>"; }
-			table_string +=  "<th> 節氣 </th>\n"+ " <th>採摘/制作</th>";
-			if(show_fullname == "true" ) table_string += "<th>FullName</th>";
+			if(show_fullname == "true" ) 
+				table_string +=  "<th> 入庫時間 </th>\n";
+			else
+				table_string +=  "<th> 節氣 </th>\n"+ " <th>採摘/制作</th>";
 			table_string +=  "<th>Instagram</th> </thead> \n <tbody> ";
 
 			var pt_dict = { "HongCha": "紅茶",
@@ -36,13 +42,20 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 			for( var idx in json ) {
 
 				table_string +=  "<tr>\n";
-				table_string +=  "<td>" + json[idx]["cultivar_zh"] + " </td> \n";
-				table_string +=  "<td>" + pt_dict[json[idx]["process_type"]] + " </td> \n";
 
-				table_string +=  "<td>" + json[idx]["harvest_city_zh"] + " </td> \n";
-				table_string +=  "<td>" + json[idx]["harvest_area_zh"] + " </td> \n";
+				if( show_fullname == "true" ){
+					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["solar_term"] +"-"+json[idx]["harvest_city_zh"]+"-"+json[idx]["harvest_area_zh"]
+						+ "-" + json[idx]["cultivar_zh"] + "-" + env_dict[json[idx]["cleaness"]] + "-" + pt_dict[json[idx]["process_type"]]
+						+ " </td> \n";
+				} else {
+					table_string +=  "<td>" + json[idx]["cultivar_zh"] + " </td> \n";
+					table_string +=  "<td>" + pt_dict[json[idx]["process_type"]] + " </td> \n";
 
-				table_string +=  "<td>" + env_dict[json[idx]["cleaness"]] + " </td> \n";
+					table_string +=  "<td>" + json[idx]["harvest_city_zh"] + " </td> \n";
+					table_string +=  "<td>" + json[idx]["harvest_area_zh"] + " </td> \n";
+
+					table_string +=  "<td>" + env_dict[json[idx]["cleaness"]] + " </td> \n";
+				}
 				if( json[idx]["gram_per_box"] == null || json[idx]["gram_per_box"] == "0" ) {
 					table_string +=  "<td>尚未包裝</td> \n"; 
 				} else
@@ -54,14 +67,12 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 						table_string +=  "<td class=\"price\">$" + json[idx]["price_per_box"] + "/Box </td> \n"; 
 				}
 					
-
-				table_string +=  "<td>" + json[idx]["solar_term"] + " </td> \n";
-				table_string +=  "<td>" + json[idx]["harvest_date"] + " </td> \n";
-
 				if( show_fullname == "true" ){
-					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["solar_term"] +"-"+json[idx]["harvest_city_zh"]+"-"+json[idx]["harvest_area_zh"]
-						+ "-" + json[idx]["cultivar_zh"] + "-" + env_dict[json[idx]["cleaness"]] + "-" + pt_dict[json[idx]["process_type"]]
-						+ " </td> \n";
+					table_string +=  "<td>" + json[idx]["arrival_date"] + " </td> \n";
+
+				} else {
+					table_string +=  "<td>" + json[idx]["solar_term"] + " </td> \n";
+					table_string +=  "<td>" + json[idx]["harvest_date"] + " </td> \n";
 				}
 
 				if( json[idx]["instagram_url"] == null ) {
@@ -77,25 +88,38 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 			table_string += "</tbody> ";
 		} else { // default "en"
 
-			table_string += "<div class=\"main\">  <table> <thead> \n" + 
-				"<th>Cultivar Name </th> \n" + 
-				"<th>Type</th> <th>City</th> <th>From</th> <th>Enviroment</th> <th>Gram/Box</th>";
+			table_string += "<div class=\"main\">  <table> <thead> \n";  
+			if(show_fullname == "true" ) 
+				table_string += "<th>FullName</th>";
+			else 
+				table_string += "<th>Cultivar Name </th> \n" + 
+					"<th>Type</th> <th>City</th> <th>From</th> <th>Enviroment</th> ";
+			
+			table_string += "<th>Gram/Box</th>";
 
 			if( show_price ) { table_string += "<th>USD/Box</th>"; } 
-			table_string += "<th>Harvest</th>"; 
-			if(show_fullname == "true" ) table_string += "<th>FullName</th>";
+			if(show_fullname == "true" ) 
+				table_string += "<th>ArrivalDate</th>"; 
+			else
+				table_string += "<th>HarvestDate</th>"; 
 			table_string +=	"<th>Instagram</th> </thead> \n <tbody> ";
 
 			for( var idx in json ) {
 
 				table_string +=  "<tr>\n";
-				table_string +=  "<td>" + json[idx]["cultivar_en"] + " </td> \n";
-				table_string +=  "<td>" + json[idx]["process_type"] + " </td> \n";
 
-				table_string +=  "<td>" + json[idx]["harvest_city_en"] + " </td> \n";
-				table_string +=  "<td>" + json[idx]["harvest_area_en"] + " </td> \n";
+				if( show_fullname == "true" ){
+					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["harvest_city_en"]+"-"+json[idx]["harvest_area_en"]
+						+ "-" + json[idx]["cultivar_en"] + "-" + json[idx]["cleaness"] + "-" + json[idx]["process_type"] 
+						+ " </td> \n";
+				} else { 
+					table_string +=  "<td>" + json[idx]["cultivar_en"] + " </td> \n";
+					table_string +=  "<td>" + json[idx]["process_type"] + " </td> \n"; 
+					table_string +=  "<td>" + json[idx]["harvest_city_en"] + " </td> \n";
+					table_string +=  "<td>" + json[idx]["harvest_area_en"] + " </td> \n"; 
+					table_string +=  "<td>" + json[idx]["cleaness"] + " </td> \n";
+				}
 
-				table_string +=  "<td>" + json[idx]["cleaness"] + " </td> \n";
 				if( json[idx]["gram_per_box"] == null || json[idx]["gram_per_box"] == "0" ) {
 					table_string +=  "<td>NotPackedYet </td> \n"; 
 				} else
@@ -108,14 +132,10 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 						table_string +=  "<td class=\"price\">$" + json[idx]["price_per_box"] + "/Box </td> \n"; 
 				}
 
-				table_string +=  "<td>" + json[idx]["harvest_date"] + " </td> \n";
-
-
-				if( show_fullname == "true" ){
-					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["harvest_city_en"]+"-"+json[idx]["harvest_area_en"]
-						+ "-" + json[idx]["cultivar_en"] + "-" + json[idx]["cleaness"] + "-" + json[idx]["process_type"] 
-						+ " </td> \n";
-				}
+				if( show_fullname != "true" ){
+					table_string +=  "<td>" + json[idx]["harvest_date"] + " </td> \n";
+				} else 
+					table_string +=  "<td>" + json[idx]["arrival_date"] + " </td> \n";
 
 				if( json[idx]["instagram_url"] == null ) {
 					table_string +=  "<td> N/A </td>\n";
