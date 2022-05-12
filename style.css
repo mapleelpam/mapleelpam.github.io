@@ -8,7 +8,7 @@
 /*	flex-direction: row;
 
 */
-	align-items: center;
+/*	align-items: center; */
 /*	float: right; */
 }
 
@@ -22,19 +22,19 @@
 }
 
 .translate {
+	display: inline-block;
 	color: blue;	
 	text-color: white;
 	text-decoration: underline;
 	width:100px;　
-
-/*	line-height:50px;　
-	display: block;
-//	float: center;
-*/
+	float:right;
 }
 .translate:hover {
 	background-color: #999;
 	color: white; 
+}
+.translateWrap {
+/*	float: right; */
 }
 
 
@@ -84,8 +84,8 @@ table tbody tr:last-child td:first-child {
 table tbody tr:last-child td:last-child {
   border-radius: 0 0 5px 0;
 }.main {
-  width: 80%;
-  margin: 20px auto;
+  width: 98%;
+  margin: 10px auto;
 }
 table {
   border-spacing: 0;
