@@ -25,7 +25,7 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 					"BaoZhong": "包種",
 					"CharcoalBaoZhong": "炭焙包種",
 					"Oolong": "烏龍",
-					"RollingOolong": "球形烏龍",
+					"RolledOolong": "球形烏龍",
 					"TGY": "鐵觀音",
 					"CharcoalTGY": "炭焙鐵觀音",
 					"BianCha": "扁茶",
