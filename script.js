@@ -56,7 +56,9 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 
 					table_string +=  "<td>" + env_dict[json[idx]["cleaness"]] + " </td> \n";
 				}
-				if( json[idx]["gram_per_box"] == null || json[idx]["gram_per_box"] == "0" ) {
+				if( json[idx]["status"] == "send2charcoal" ) {
+					table_string +=  "<td>待焙火</td> \n"; 
+				} else if( json[idx]["gram_per_box"] == null || json[idx]["gram_per_box"] == "0" ) {
 					table_string +=  "<td>尚未包裝</td> \n"; 
 				} else
 					table_string +=  "<td>" + json[idx]["gram_per_box"] + "g/Box </td> \n";
@@ -120,7 +122,9 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 					table_string +=  "<td>" + json[idx]["cleaness"] + " </td> \n";
 				}
 
-				if( json[idx]["gram_per_box"] == null || json[idx]["gram_per_box"] == "0" ) {
+				if( json[idx]["status"] == "send2charcoal" ) {
+					table_string +=  "<td>WaitForRoast</td> \n"; 
+				} else if( json[idx]["gram_per_box"] == null || json[idx]["gram_per_box"] == "0" ) {
 					table_string +=  "<td>NotPackedYet </td> \n"; 
 				} else
 					table_string +=  "<td>" + json[idx]["gram_per_box"] + "g/Box </td> \n";
