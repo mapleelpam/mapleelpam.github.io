@@ -1,9 +1,62 @@
 // Code goes here
 
+const urlParams = new URLSearchParams(window.location.search);
+var lang = urlParams.get('lang') == null ? "en" : urlParams.get('lang');
+var show_fullname= urlParams.get('fullname') == null ? false : urlParams.get('fullname');
+var filter_type = urlParams.get('filter_type');
+console.log(" filter_type"+filter_type);
+var filter_cultivar_string = urlParams.get('filter_cultivar');
+var filter_cultivar = null;
+if( filter_cultivar_string != null ) {
+	filter_cultivar = filter_cultivar_string.split(" ");	
+}
+console.log(" filter_cultivar_string "+filter_cultivar_string);
+console.log(" filter_cultivar "+filter_cultivar);
+
+function update_url_parameters()
+{
+	para_string ="?lang="+window.lang+"&fullname="+show_fullname;
+	if( filter_type != null )	para_string += "&filter_type="+filter_type;
+	if( filter_cultivar != null ) {
+		filter_cultivar_string = "";
+		for( var idx in filter_cultivar ) {
+			filter_cultivar_string += (idx == 0 ? "" : "+") + filter_cultivar[idx]; 
+		}
+		para_string += "&filter_cultivar="+filter_cultivar_string;
+	}
+	console.log( "para_string" + para_string );
+	window.history.replaceState(null, null, para_string); 
+}
+
 function update_body( lang = "en", show_full_name = false, show_price = false ) {
 	var table_string = "";
 
 	$.getJSON("db.json"). then( function(json) {
+		if( filter_type != null ) {
+			for( var idx in json ) {
+				if( json[idx]["process_type"] != filter_type ) {
+					json[idx] = undefined;	
+				}
+			} 
+			for( var idx in json ) {
+				if( json[idx] == undefined )
+					delete json[idx];
+			}
+		}
+		if( filter_cultivar != null ) {
+			for( var idx in json ) {
+				//if( json[idx]["cultivar_en"] != filter_cultivar) {
+
+				if( filter_cultivar.includes( json[idx]["cultivar_en"] ) == false ) {
+					json[idx] = undefined;	
+				}
+			} 
+			for( var idx in json ) {
+				if( json[idx] == undefined )
+					delete json[idx];
+			}
+		}
+
 		if( lang == "zh" ) {
 
 			table_string += "<table> <thead> \n" ; 
@@ -159,9 +212,12 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 		
 		$(".translate").click(function() {
 			console.log(" click ");
-			var lang = $(this).attr("id"); 
-			window.history.replaceState(null, null, "?lang="+lang); 
-			update_body( lang );
+			var btn_lang = $(this).attr("id"); 
+			window.lang = btn_lang;
+			console.log(" click "+lang);
+//			window.history.replaceState(null, null, "?lang="+lang); 
+			update_url_parameters();
+			update_body( lang, show_fullname, false );
 		});
 	
 		$("#keyword").keyup(function(){
@@ -178,7 +234,4 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 	});
 }
 
-const urlParams = new URLSearchParams(window.location.search);
-const lang = urlParams.get('lang');
-const show_fullname= urlParams.get('fullname');
 update_body( lang, show_fullname, false );
