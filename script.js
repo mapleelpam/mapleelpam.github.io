@@ -89,6 +89,7 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 					"SemiWild": "半野",
 					"PureWild": "純野",
 					"WildOldBush": "野放老欉",
+					"PureWildOldBush": "純野老欉",
 					"WildTallBush": "野放高欉"
 					 };
 
