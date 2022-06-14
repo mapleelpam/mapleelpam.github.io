@@ -65,7 +65,7 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 			else
 				table_string += "<th> 品種 </th> \n" + 
 					"<th> 型態 </th> \n" + 
-					"<th> 市/縣 </th> <th> 產地 </th> <th> 環境 </th>\n";
+					"<th> 市/縣 </th> <th> 產地 </th> <th> 環境 </th> <th> 焙火形態 </th>\n";
 			table_string += "<th> 克/盒 </th> \n" ; 
 			if( show_price ) { table_string += "<th>USD/Box</th>"; }
 			if(show_fullname == "true" ) 
@@ -93,6 +93,11 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 					"PureWildOldBush": "純野老欉",
 					"WildTallBush": "野放高欉"
 					 };
+			
+			var roast_dict ={ 
+					"LightCharcoalRoast": "炭焙(輕)",
+					"MidCharcoalRoast": "炭焙(中)",
+					 };
 
 			for( var idx in json ) {
 
@@ -110,6 +115,7 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 					table_string +=  "<td>" + json[idx]["harvest_area_zh"] + " </td> \n";
 
 					table_string +=  "<td>" + env_dict[json[idx]["cleaness"]] + " </td> \n";
+					table_string +=  "<td>" + (json[idx]["roast_type"] == undefined ? " " : roast_dict[json[idx]["roast_type"]] ) + " </td> \n";
 				}
 				if( json[idx]["status"] == "send2charcoal" ) {
 					table_string +=  "<td>待焙火</td> \n"; 
@@ -150,7 +156,7 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 				table_string += "<th>FullName</th>";
 			else 
 				table_string += "<th>Cultivar Name </th> \n" + 
-					"<th>Type</th> <th>City</th> <th>From</th> <th>Enviroment</th> ";
+					"<th>Type</th> <th>City</th> <th>From</th> <th>Enviroment</th>  <th>RoastType</th>";
 			
 			table_string += "<th>Gram/Box</th>";
 
@@ -175,6 +181,7 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 					table_string +=  "<td>" + json[idx]["harvest_city_en"] + " </td> \n";
 					table_string +=  "<td>" + json[idx]["harvest_area_en"] + " </td> \n"; 
 					table_string +=  "<td>" + json[idx]["cleaness"] + " </td> \n";
+					table_string +=  "<td>" + (json[idx]["roast_type"] == undefined ? " " : json[idx]["roast_type"] ) + " </td> \n";
 				}
 
 				if( json[idx]["status"] == "send2charcoal" ) {
