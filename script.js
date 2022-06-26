@@ -2,9 +2,16 @@
 
 const urlParams = new URLSearchParams(window.location.search);
 var lang = urlParams.get('lang') == null ? "en" : urlParams.get('lang');
-var show_fullname= urlParams.get('fullname') == null ? false : urlParams.get('fullname');
+
+var show_longname= urlParams.get('longname') == null ? false : urlParams.get('longname');
+
+var show_storage = urlParams.get('storage') == null ? false : urlParams.get('storage');
+
+var filter_year = urlParams.get('filter_year');
+
 var filter_type = urlParams.get('filter_type');
 console.log(" filter_type"+filter_type);
+
 var filter_cultivar_string = urlParams.get('filter_cultivar');
 var filter_cultivar = null;
 if( filter_cultivar_string != null ) {
@@ -12,11 +19,13 @@ if( filter_cultivar_string != null ) {
 }
 console.log(" filter_cultivar_string "+filter_cultivar_string);
 console.log(" filter_cultivar "+filter_cultivar);
+console.log(" show_storage - "+show_storage);
 
 function update_url_parameters()
 {
-	para_string ="?lang="+window.lang+"&fullname="+show_fullname;
+	para_string ="?lang="+window.lang+"&longname="+show_longname;
 	if( filter_type != null )	para_string += "&filter_type="+filter_type;
+	if( filter_year != null )	para_string += "&filter_year="+filter_year;
 	if( filter_cultivar != null ) {
 		filter_cultivar_string = "";
 		for( var idx in filter_cultivar ) {
@@ -28,7 +37,7 @@ function update_url_parameters()
 	window.history.replaceState(null, null, para_string); 
 }
 
-function update_body( lang = "en", show_full_name = false, show_price = false ) {
+function update_body( lang = "en",  show_price = false ) {
 	var table_string = "";
 
 	$.getJSON("db.json"). then( function(json) {
@@ -38,10 +47,13 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 					json[idx] = undefined;	
 				}
 			} 
+		}
+		if( filter_year != null && filter_year != "none" ) {
 			for( var idx in json ) {
-				if( json[idx] == undefined )
-					delete json[idx];
-			}
+				if( json[idx]["year"] != filter_year ) {
+					json[idx] = undefined;	
+				}
+			} 
 		}
 		if( filter_cultivar != null ) {
 			for( var idx in json ) {
@@ -51,16 +63,16 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 					json[idx] = undefined;	
 				}
 			} 
-			for( var idx in json ) {
-				if( json[idx] == undefined )
-					delete json[idx];
-			}
+		}
+		for( var idx in json ) {
+			if( json[idx] == undefined )
+				delete json[idx];
 		}
 
 		if( lang == "zh" ) {
 
 			table_string += "<table> <thead> \n" ; 
-			if(show_fullname == "true" ) 
+			if(show_longname == "true" ) 
 				table_string += "<th>FullName</th>";
 			else
 				table_string += "<th> 品種 </th> \n" + 
@@ -68,7 +80,8 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 					"<th> 市/縣 </th> <th> 產地 </th> <th> 環境 </th> <th> 焙火形態 </th>\n";
 			table_string += "<th> 克/盒 </th> \n" ; 
 			if( show_price ) { table_string += "<th>USD/Box</th>"; }
-			if(show_fullname == "true" ) 
+			if( show_storage ) { table_string += "<th>in stock</th>"; }
+			if(show_longname == "true" ) 
 				table_string +=  "<th> 入庫時間 </th>\n";
 			else
 				table_string +=  "<th> 節氣 </th>\n"+ " <th>採摘/制作</th>";
@@ -103,7 +116,7 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 
 				table_string +=  "<tr>\n";
 
-				if( show_fullname == "true" ){
+				if( show_longname == "true" ){
 					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["solar_term"] +"-"+json[idx]["harvest_city_zh"]+"-"+json[idx]["harvest_area_zh"]
 						+ "-" + json[idx]["cultivar_zh"] + "-" + env_dict[json[idx]["cleaness"]] + "-" + pt_dict[json[idx]["process_type"]]
 						+ " </td> \n";
@@ -129,8 +142,14 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 					} else 
 						table_string +=  "<td class=\"price\">$" + json[idx]["price_per_box"] + "/Box </td> \n"; 
 				}
+				if( show_storage ) {
+					if( json[idx]["nb_in_stock"] == null  ) {
+						table_string +=  "<td> N/A </td> \n"; 
+					} else 
+						table_string +=  "<td class=\"nb_in_stock\">" + json[idx]["nb_in_stock"] +"/"+ json[idx]["nb_initial"] + " </td> \n"; 
+				}
 					
-				if( show_fullname == "true" ){
+				if( show_longname == "true" ){
 					table_string +=  "<td>" + json[idx]["arrival_date"] + " </td> \n";
 
 				} else {
@@ -152,7 +171,7 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 		} else { // default "en"
 
 			table_string += "<div class=\"main\">  <table> <thead> \n";  
-			if(show_fullname == "true" ) 
+			if(show_longname == "true" ) 
 				table_string += "<th>FullName</th>";
 			else 
 				table_string += "<th>Cultivar Name </th> \n" + 
@@ -161,7 +180,7 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 			table_string += "<th>Gram/Box</th>";
 
 			if( show_price ) { table_string += "<th>USD/Box</th>"; } 
-			if(show_fullname == "true" ) 
+			if(show_longname == "true" ) 
 				table_string += "<th>ArrivalDate</th>"; 
 			else
 				table_string += "<th>HarvestDate</th>"; 
@@ -171,7 +190,7 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 
 				table_string +=  "<tr>\n";
 
-				if( show_fullname == "true" ){
+				if( show_longname == "true" ){
 					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["harvest_city_en"]+"-"+json[idx]["harvest_area_en"]
 						+ "-" + json[idx]["cultivar_en"] + "-" + json[idx]["cleaness"] + "-" + json[idx]["process_type"] 
 						+ " </td> \n";
@@ -198,7 +217,7 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 						table_string +=  "<td class=\"price\">$" + json[idx]["price_per_box"] + "/Box </td> \n"; 
 				}
 
-				if( show_fullname != "true" ){
+				if( show_longname != "true" ){
 					table_string +=  "<td>" + json[idx]["harvest_date"] + " </td> \n";
 				} else 
 					table_string +=  "<td>" + json[idx]["arrival_date"] + " </td> \n";
@@ -226,7 +245,25 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 			console.log(" click "+lang);
 //			window.history.replaceState(null, null, "?lang="+lang); 
 			update_url_parameters();
-			update_body( lang, show_fullname, false );
+			update_body( lang, false );
+			location.reload();
+		});
+		$(".longname").click(function() {
+			console.log(" longname click ");
+			var btn_longname = $(this).attr("value"); 
+			show_longname = btn_longname;
+			console.log(" click "+show_longname);
+//			window.history.replaceState(null, null, "?lang="+lang); 
+			update_url_parameters();
+			update_body( lang, false );
+			location.reload();
+		});
+		$(".filterYear").click(function() {
+			var btn_value= $(this).attr("value"); 
+			filter_year= btn_value;
+			update_url_parameters();
+			update_body( lang, false );
+			location.reload();
 		});
 	
 		$("#keyword").keyup(function(){
@@ -234,13 +271,13 @@ function update_body( lang = "en", show_full_name = false, show_price = false ) 
 			//this._show_price = false;
 			if( $("#keyword").val() == "teamapletw" ) {
 				this._show_price = true;
-				update_body( lang, show_fullname, this._show_price );
+				update_body( lang, this._show_price );
 			} else if(this. _show_price == true ) {
 				this._show_price = false;
-				update_body( lang, show_fullname, this._show_price ); 
+				update_body( lang, this._show_price ); 
 			}
 		});
 	});
 }
 
-update_body( lang, show_fullname, false );
+update_body( lang,  false );

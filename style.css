@@ -5,20 +5,11 @@
 
 .bodyheader {
 	display: block;
-/*	flex-direction: row;
-
-*/
-/*	align-items: center; */
-/*	float: right; */
 }
 
 .bodybottom{
 	display: block;
-/*	flex-direction: row;
-
-*/
 	align-items: center;
-/*	float: right; */
 }
 
 .translate {
@@ -36,6 +27,38 @@
 .translateWrap {
 /*	float: right; */
 }
+.longname {
+	display: inline-block;
+	color: blue;	
+	text-color: white;
+	text-decoration: underline;
+	width:100px;　
+	float:right;
+}
+.longname:hover {
+	background-color: #999;
+	color: white; 
+}
+.longnameWrap {
+/*	float: right; */
+}
+
+.filterYear{
+	display: inline-block;
+	color: blue;	
+	text-color: white;
+	text-decoration: underline;
+	width:150px;　
+	float:right;
+}
+.filterYear:hover {
+	background-color: #999;
+	color: white; 
+}
+.filterYear {
+/*	float: right; */
+}
+
 
 
 table {
