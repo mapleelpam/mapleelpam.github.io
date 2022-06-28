@@ -111,14 +111,22 @@ function update_body( lang = "en",  show_price = false ) {
 					"LightCharcoalRoast": "炭焙(輕)",
 					"MidCharcoalRoast": "炭焙(中)",
 					 };
+			var roast_dict_longname ={ 
+					"LightCharcoalRoast": "輕炭焙",
+					"MidCharcoalRoast": "中炭焙",
+					 };
 
 			for( var idx in json ) {
 
 				table_string +=  "<tr>\n";
 
 				if( show_longname == "true" ){
-					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["solar_term"] +"-"+json[idx]["harvest_city_zh"]+"-"+json[idx]["harvest_area_zh"]
-						+ "-" + json[idx]["cultivar_zh"] + "-" + env_dict[json[idx]["cleaness"]] + "-" + pt_dict[json[idx]["process_type"]]
+					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["solar_term"] 
+						+"-"+json[idx]["harvest_city_zh"]+"-"+json[idx]["harvest_area_zh"]
+						+ "-" + json[idx]["cultivar_zh"] + "-" + env_dict[json[idx]["cleaness"]] 
+						+( (json[idx]["roast_type"] == undefined)?"":("-"+roast_dict_longname[json[idx]["roast_type"]]) )
+						+( (json[idx]["special_name_zh"] == undefined)?"":("-"+json[idx]["special_name_zh"]) ) 
+						+ "-" + pt_dict[json[idx]["process_type"]]
 						+ " </td> \n";
 				} else {
 					table_string +=  "<td>" + json[idx]["cultivar_zh"] + " </td> \n";
@@ -132,6 +140,8 @@ function update_body( lang = "en",  show_price = false ) {
 				}
 				if( json[idx]["status"] == "send2charcoal" ) {
 					table_string +=  "<td>待焙火</td> \n"; 
+				} else if( json[idx]["status"] == "sold" ) {
+					table_string +=  "<td>無庫存</td> \n"; 
 				} else if( json[idx]["gram_per_box"] == null || json[idx]["gram_per_box"] == "0" ) {
 					table_string +=  "<td>尚未包裝</td> \n"; 
 				} else
@@ -192,7 +202,10 @@ function update_body( lang = "en",  show_price = false ) {
 
 				if( show_longname == "true" ){
 					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["harvest_city_en"]+"-"+json[idx]["harvest_area_en"]
-						+ "-" + json[idx]["cultivar_en"] + "-" + json[idx]["cleaness"] + "-" + json[idx]["process_type"] 
+						+ "-" + json[idx]["cultivar_en"] + "-" + json[idx]["cleaness"] 
+						+( (json[idx]["roast_type"] == undefined)?"":("-"+json[idx]["roast_type"]) )
+						+( (json[idx]["special_name_en"] == undefined)?"":("-"+json[idx]["special_name_en"]) )
+						+ "-" + json[idx]["process_type"] 
 						+ " </td> \n";
 				} else { 
 					table_string +=  "<td>" + json[idx]["cultivar_en"] + " </td> \n";
@@ -205,6 +218,8 @@ function update_body( lang = "en",  show_price = false ) {
 
 				if( json[idx]["status"] == "send2charcoal" ) {
 					table_string +=  "<td>WaitForRoast</td> \n"; 
+				} else if( json[idx]["status"] == "sold" ) {
+					table_string +=  "<td>Sold</td> \n"; 
 				} else if( json[idx]["gram_per_box"] == null || json[idx]["gram_per_box"] == "0" ) {
 					table_string +=  "<td>NotPackedYet </td> \n"; 
 				} else
