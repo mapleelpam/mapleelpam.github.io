@@ -110,10 +110,12 @@ function update_body( lang = "en",  show_price = false ) {
 			var roast_dict ={ 
 					"LightCharcoalRoast": "炭焙(輕)",
 					"MidCharcoalRoast": "炭焙(中)",
+					"HeavyCharcoalRoast": "炭焙(重)"
 					 };
 			var roast_dict_longname ={ 
 					"LightCharcoalRoast": "輕炭焙",
 					"MidCharcoalRoast": "中炭焙",
+					"HeavyCharcoalRoast": "重炭焙"
 					 };
 
 			for( var idx in json ) {
