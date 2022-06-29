@@ -127,10 +127,12 @@ function update_body( lang = "en",  show_price = false ) {
 						+( (json[idx]["roast_type"] == undefined)?"":("-"+roast_dict_longname[json[idx]["roast_type"]]) )
 						+( (json[idx]["special_name_zh"] == undefined)?"":("-"+json[idx]["special_name_zh"]) ) 
 						+ "-" + pt_dict[json[idx]["process_type"]]
+						+( (json[idx]["special_recommend"] == undefined)?"":"*" )
 						+ " </td> \n";
+
 				} else {
 					table_string +=  "<td>" + json[idx]["cultivar_zh"] + " </td> \n";
-					table_string +=  "<td>" + pt_dict[json[idx]["process_type"]] + " </td> \n";
+					table_string +=  "<td>" + pt_dict[json[idx]["process_type"]] + ( (json[idx]["special_recommend"] == undefined)?"":"*" ) + " </td> \n";
 
 					table_string +=  "<td>" + json[idx]["harvest_city_zh"] + " </td> \n";
 					table_string +=  "<td>" + json[idx]["harvest_area_zh"] + " </td> \n";
@@ -206,10 +208,12 @@ function update_body( lang = "en",  show_price = false ) {
 						+( (json[idx]["roast_type"] == undefined)?"":("-"+json[idx]["roast_type"]) )
 						+( (json[idx]["special_name_en"] == undefined)?"":("-"+json[idx]["special_name_en"]) )
 						+ "-" + json[idx]["process_type"] 
+						+( (json[idx]["special_postfix"] == undefined)?"":("-"+json[idx]["special_postfix"]) )
+						+( (json[idx]["special_recommend"] == undefined)?"":"*" )
 						+ " </td> \n";
 				} else { 
 					table_string +=  "<td>" + json[idx]["cultivar_en"] + " </td> \n";
-					table_string +=  "<td>" + json[idx]["process_type"] + " </td> \n"; 
+					table_string +=  "<td>" + json[idx]["process_type"] + ( (json[idx]["special_recommend"] == undefined)?"":"*" ) + " </td> \n";
 					table_string +=  "<td>" + json[idx]["harvest_city_en"] + " </td> \n";
 					table_string +=  "<td>" + json[idx]["harvest_area_en"] + " </td> \n"; 
 					table_string +=  "<td>" + json[idx]["cleaness"] + " </td> \n";
