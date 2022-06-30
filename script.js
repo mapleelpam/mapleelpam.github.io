@@ -92,11 +92,11 @@ function update_body( lang = "en",  show_price = false ) {
 					"CharcoalBaoZhong": "炭焙包種",
 					"Oolong": "烏龍",
 					"RolledOolong": "球形烏龍",
+					"DongDing": "凍頂烏龍",
 					"TGY": "鐵觀音",
 					"CharcoalTGY": "炭焙鐵觀音",
 					"BianCha": "扁茶",
 					"Green": "綠茶",
-					"CharcoalOrientalBeauty":"炭焙白毫烏龍",
 					"OrientalBeauty":"白毫烏龍" };
 
 			var env_dict ={ "Wild": "野放",
