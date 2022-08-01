@@ -3,11 +3,11 @@
 const urlParams = new URLSearchParams(window.location.search);
 var lang = urlParams.get('lang') == null ? "en" : urlParams.get('lang');
 
-var show_longname= urlParams.get('longname') == null ? false : urlParams.get('longname');
+var show_longname= urlParams.get('longname') == null ? "true" : urlParams.get('longname');
 
-var show_storage = urlParams.get('storage') == null ? false : urlParams.get('storage');
+var show_storage = urlParams.get('storage') == null ? "false" : urlParams.get('storage');
 
-var filter_year = urlParams.get('filter_year');
+var filter_year = urlParams.get('filter_year') == null ? "2022" : urlParams.get('filter_year');
 
 var filter_type = urlParams.get('filter_type');
 console.log(" filter_type"+filter_type);
