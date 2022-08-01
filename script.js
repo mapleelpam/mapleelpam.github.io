@@ -9,6 +9,8 @@ var show_storage = urlParams.get('storage') == null ? "false" : urlParams.get('s
 
 var filter_year = urlParams.get('filter_year') == null ? "2022" : urlParams.get('filter_year');
 
+var sort_by = urlParams.get('sort_by') == null ? "none" : urlParams.get('sort_by');
+
 var filter_type = urlParams.get('filter_type');
 console.log(" filter_type"+filter_type);
 
@@ -24,6 +26,7 @@ console.log(" show_storage - "+show_storage);
 function update_url_parameters()
 {
 	para_string ="?lang="+window.lang+"&longname="+show_longname;
+	if( sort_by != null )	para_string += "&sort_by="+sort_by;
 	if( filter_type != null )	para_string += "&filter_type="+filter_type;
 	if( filter_year != null )	para_string += "&filter_year="+filter_year;
 	if( filter_cultivar != null ) {
@@ -68,6 +71,23 @@ function update_body( lang = "en",  show_price = false ) {
 			if( json[idx] == undefined )
 				delete json[idx];
 		}
+		if( sort_by != null && sort_by != "none" ) {
+			if( sort_by == "sortByHarvestDate" ) {
+				json.sort(function(a, b){
+					return Date.parse( b["harvest_date"]) - Date.parse( a["harvest_date"]);
+				}); 
+			} else if( sort_by == "sortByType" ) {
+				json.sort(function(a, b){
+					if( a['process_type'] == b['process_type'] ) return Date.parse( b["harvest_date"]) - Date.parse( a["harvest_date"]);
+					return (a['process_type'] > b['process_type']) ? 1 : -1 ;
+				}); 
+			} else if( sort_by == "sortByCultivar" ) {
+				json.sort(function(a, b){
+					if( a['cultivar_en'] == b['cultivar_en'] ) return Date.parse( b["harvest_date"]) - Date.parse( a["harvest_date"]);
+					return (a['cultivar_en'] > b['cultivar_en']) ? 1 : -1 ;
+				}); 
+			}
+		}
 
 		if( lang == "zh" ) {
 
@@ -80,7 +100,7 @@ function update_body( lang = "en",  show_price = false ) {
 					"<th> 市/縣 </th> <th> 產地 </th> <th> 環境 </th> <th> 焙火形態 </th>\n";
 			table_string += "<th> 克/盒 </th> \n" ; 
 			if( show_price ) { table_string += "<th>USD/Box</th>"; }
-			if( show_storage ) { table_string += "<th>in stock</th>"; }
+			if( show_storage == "true" ) { table_string += "<th>in stock</th>"; }
 			if(show_longname == "true" ) 
 				table_string +=  "<th> 入庫時間 </th>\n";
 			else
@@ -156,7 +176,7 @@ function update_body( lang = "en",  show_price = false ) {
 					} else 
 						table_string +=  "<td class=\"price\">$" + json[idx]["price_per_box"] + "/Box </td> \n"; 
 				}
-				if( show_storage ) {
+				if( show_storage == "true" ) {
 					if( json[idx]["nb_in_stock"] == null  ) {
 						table_string +=  "<td> N/A </td> \n"; 
 					} else 
@@ -282,6 +302,13 @@ function update_body( lang = "en",  show_price = false ) {
 		$(".filterYear").click(function() {
 			var btn_value= $(this).attr("value"); 
 			filter_year= btn_value;
+			update_url_parameters();
+			update_body( lang, false );
+			location.reload();
+		});
+		$(".sortBy").click(function() {
+			var btn_value= $(this).attr("value"); 
+			sort_by = btn_value;
 			update_url_parameters();
 			update_body( lang, false );
 			location.reload();

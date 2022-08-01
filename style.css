@@ -60,6 +60,22 @@
 }
 
 
+.sortBy{
+	display: inline-block;
+	color: blue;	
+	text-color: white;
+	text-decoration: underline;
+	width:200px;　
+	float:right;
+}
+.sortBy:hover {
+	background-color: #999;
+	color: white; 
+}
+.sortBy{
+/*	float: right; */
+}
+
 
 table {
   border-spacing: 0;
