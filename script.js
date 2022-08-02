@@ -109,6 +109,7 @@ function update_body( lang = "en",  show_price = false ) {
 
 			var pt_dict = { "HongCha": "紅茶",
 					"BaoZhong": "包種",
+					"YanCha": "岩茶",
 					"CharcoalBaoZhong": "炭焙包種",
 					"Oolong": "烏龍",
 					"RolledOolong": "球形烏龍",
@@ -145,7 +146,8 @@ function update_body( lang = "en",  show_price = false ) {
 				if( show_longname == "true" ){
 					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["solar_term"] 
 						+"-"+json[idx]["harvest_city_zh"]+"-"+json[idx]["harvest_area_zh"]
-						+ "-" + json[idx]["cultivar_zh"] + "-" + env_dict[json[idx]["cleaness"]] 
+						+ "-" + json[idx]["cultivar_zh"]  
+						+( env_dict[json[idx]["cleaness"]] == undefined ? "" : "-" + env_dict[json[idx]["cleaness"]] )
 						+( (json[idx]["roast_type"] == undefined)?"":("-"+roast_dict_longname[json[idx]["roast_type"]]) )
 						+( (json[idx]["special_name_zh"] == undefined)?"":("-"+json[idx]["special_name_zh"]) ) 
 						+ "-" + pt_dict[json[idx]["process_type"]]
@@ -159,7 +161,7 @@ function update_body( lang = "en",  show_price = false ) {
 					table_string +=  "<td>" + json[idx]["harvest_city_zh"] + " </td> \n";
 					table_string +=  "<td>" + json[idx]["harvest_area_zh"] + " </td> \n";
 
-					table_string +=  "<td>" + env_dict[json[idx]["cleaness"]] + " </td> \n";
+					table_string +=  "<td>" +( env_dict[json[idx]["cleaness"]] == undefined ? "" : env_dict[json[idx]["cleaness"]] ) + " </td> \n";
 					table_string +=  "<td>" + (json[idx]["roast_type"] == undefined ? " " : roast_dict[json[idx]["roast_type"]] ) + " </td> \n";
 				}
 				if( json[idx]["status"] == "send2charcoal" ) {
