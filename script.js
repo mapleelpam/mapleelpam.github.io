@@ -118,6 +118,7 @@ function update_body( lang = "en",  show_price = false ) {
 					"CharcoalTGY": "炭焙鐵觀音",
 					"BianCha": "扁茶",
 					"Green": "綠茶",
+					"WhiteTea": "白茶",
 					"OrientalBeauty":"白毫烏龍" };
 
 			var env_dict ={ "Wild": "野放",
