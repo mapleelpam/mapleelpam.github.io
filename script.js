@@ -11,6 +11,8 @@ var filter_year = urlParams.get('filter_year') == null ? "2022" : urlParams.get(
 
 var sort_by = urlParams.get('sort_by') == null ? "none" : urlParams.get('sort_by');
 
+var show_unit_price = urlParams.get('unitprice') == null ? "none" : urlParams.get('unitprice');
+
 var filter_type = urlParams.get('filter_type');
 console.log(" filter_type"+filter_type);
 
@@ -99,6 +101,7 @@ function update_body( lang = "en",  show_price = false ) {
 					"<th> 型態 </th> \n" + 
 					"<th> 市/縣 </th> <th> 產地 </th> <th> 環境 </th> <th> 焙火形態 </th>\n";
 			table_string += "<th> 克/盒 </th> \n" ; 
+			if( show_price && show_unit_price == "true" ) { table_string += "<th>USD/600g</th>"; }
 			if( show_price ) { table_string += "<th>USD/Box</th>"; }
 			if( show_storage == "true" ) { table_string += "<th>in stock</th>"; }
 			if(show_longname == "true" ) 
@@ -174,6 +177,17 @@ function update_body( lang = "en",  show_price = false ) {
 				} else
 					table_string +=  "<td>" + json[idx]["gram_per_box"] + "g/Box </td> \n";
 				if( show_price ) {
+					if( show_unit_price == "true" ) {
+						if( json[idx]["price_per_box"] == null || json[idx]["price_per_box"] == "0" ) {
+							table_string +=  "<td> N/A </td> \n"; 
+						} else  {
+							table_string +=  "<td class=\"price\">$" +  
+						 	(parseInt(json[idx]["price_per_box"]) / parseInt(json[idx]["gram_per_box"]) * 600 )
+							+ "</td> \n"; 
+						}
+
+					}
+
 					if( json[idx]["price_per_box"] == null || json[idx]["price_per_box"] == "0" ) {
 						table_string +=  "<td> N/A </td> \n"; 
 					} else 
