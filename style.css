@@ -75,6 +75,21 @@
 .sortBy{
 /*	float: right; */
 }
+.showOnly{
+	display: inline-block;
+	color: blue;	
+	text-color: white;
+	text-decoration: underline;
+	width:250px;　
+	float:right;
+}
+.showOnly:hover {
+	background-color: #999;
+	color: white; 
+}
+.showOnly{
+/*	float: right; */
+}
 
 
 table {

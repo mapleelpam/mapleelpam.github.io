@@ -13,6 +13,8 @@ var sort_by = urlParams.get('sort_by') == null ? "none" : urlParams.get('sort_by
 
 var show_unit_price = urlParams.get('unitprice') == null ? "none" : urlParams.get('unitprice');
 
+var show_special_recommend_only = urlParams.get('recommendonly') == null ? "none" : urlParams.get('recommendonly');
+
 var filter_type = urlParams.get('filter_type');
 console.log(" filter_type"+filter_type);
 
@@ -29,6 +31,7 @@ function update_url_parameters()
 {
 	para_string ="?lang="+window.lang+"&longname="+show_longname;
 	if( sort_by != null )	para_string += "&sort_by="+sort_by;
+	if( show_special_recommend_only != null )	para_string += "&recommendonly="+show_special_recommend_only;
 	if( filter_type != null )	para_string += "&filter_type="+filter_type;
 	if( filter_year != null )	para_string += "&filter_year="+filter_year;
 	if( filter_cultivar != null ) {
@@ -68,6 +71,14 @@ function update_body( lang = "en",  show_price = false ) {
 					json[idx] = undefined;	
 				}
 			} 
+		}
+		if( show_special_recommend_only == "true" ) {
+			for( var idx in json ) {
+				if( json[idx]["special_recommend"] != "true") {
+					json[idx] = undefined;	
+				}
+			} 
+
 		}
 		for( var idx in json ) {
 			if( json[idx] == undefined )
@@ -326,6 +337,12 @@ function update_body( lang = "en",  show_price = false ) {
 		$(".sortBy").click(function() {
 			var btn_value= $(this).attr("value"); 
 			sort_by = btn_value;
+			update_url_parameters();
+			update_body( lang, false );
+			location.reload();
+		});
+		$(".showOnly").click(function() {
+			show_special_recommend_only = "true";
 			update_url_parameters();
 			update_body( lang, false );
 			location.reload();
