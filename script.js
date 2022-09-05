@@ -7,9 +7,9 @@ var show_longname= urlParams.get('longname') == null ? "true" : urlParams.get('l
 
 var show_storage = urlParams.get('storage') == null ? "false" : urlParams.get('storage');
 
-var filter_year = urlParams.get('filter_year') == null ? "2022" : urlParams.get('filter_year');
+var filter_year = urlParams.get('filter_year') == null ? "none" : urlParams.get('filter_year');
 
-var sort_by = urlParams.get('sort_by') == null ? "none" : urlParams.get('sort_by');
+var sort_by = urlParams.get('sort_by') == null ? "sortByArrivalDate" : urlParams.get('sort_by');
 
 var show_unit_price = urlParams.get('unitprice') == null ? "none" : urlParams.get('unitprice');
 
@@ -98,6 +98,10 @@ function update_body( lang = "en",  show_price = false ) {
 				json.sort(function(a, b){
 					if( a['cultivar_en'] == b['cultivar_en'] ) return Date.parse( b["harvest_date"]) - Date.parse( a["harvest_date"]);
 					return (a['cultivar_en'] > b['cultivar_en']) ? 1 : -1 ;
+				}); 
+			} else if( sort_by == "sortByArrivalDate" ) {
+				json.sort(function(a, b){
+					return Date.parse( b["arrival_date"]) - Date.parse( a["arrival_date"]);
 				}); 
 			}
 		}
