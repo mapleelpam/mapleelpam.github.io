@@ -315,6 +315,7 @@ function update_body( lang = "en",  show_price = false ) {
 			console.log(" click ");
 			var btn_lang = $(this).attr("id"); 
 			window.lang = btn_lang;
+			show_special_recommend_only = "false";
 			console.log(" click "+lang);
 //			window.history.replaceState(null, null, "?lang="+lang); 
 			update_url_parameters();
@@ -325,6 +326,7 @@ function update_body( lang = "en",  show_price = false ) {
 			console.log(" longname click ");
 			var btn_longname = $(this).attr("value"); 
 			show_longname = btn_longname;
+			show_special_recommend_only = "false";
 			console.log(" click "+show_longname);
 //			window.history.replaceState(null, null, "?lang="+lang); 
 			update_url_parameters();
@@ -334,6 +336,7 @@ function update_body( lang = "en",  show_price = false ) {
 		$(".filterYear").click(function() {
 			var btn_value= $(this).attr("value"); 
 			filter_year= btn_value;
+			show_special_recommend_only = "false";
 			update_url_parameters();
 			update_body( lang, false );
 			location.reload();
@@ -341,6 +344,7 @@ function update_body( lang = "en",  show_price = false ) {
 		$(".sortBy").click(function() {
 			var btn_value= $(this).attr("value"); 
 			sort_by = btn_value;
+			show_special_recommend_only = "false";
 			update_url_parameters();
 			update_body( lang, false );
 			location.reload();
