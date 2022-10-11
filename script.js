@@ -128,7 +128,7 @@ function update_body( lang = "en",  show_price = false ) {
 			var pt_dict = { "HongCha": "紅茶",
 					"BaoZhong": "包種",
 					"YanCha": "岩茶",
-					"YanCha": "單欉",
+					"DanCong": "單欉",
 					"CharcoalBaoZhong": "炭焙包種",
 					"Oolong": "烏龍",
 					"RolledOolong": "球形烏龍",
