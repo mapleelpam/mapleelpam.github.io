@@ -166,6 +166,9 @@ function update_body( lang = "en",  show_price = false ) {
 				if( show_longname == "true" ){
 					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["solar_term"] 
 						+"-"+json[idx]["harvest_city_zh"]+"-"+json[idx]["harvest_area_zh"]
+
+						+( (json[idx]["harvest_field_zh"] == undefined || json[idx]["harvest_field_zh"] == "")?"":("-"+json[idx]["harvest_field_zh"]) )
+
 						+ "-" + json[idx]["cultivar_zh"]  
 						+( env_dict[json[idx]["cleaness"]] == undefined ? "" : "-" + env_dict[json[idx]["cleaness"]] )
 						+( (json[idx]["roast_type"] == undefined)?"":("-"+roast_dict_longname[json[idx]["roast_type"]]) )
@@ -259,7 +262,9 @@ function update_body( lang = "en",  show_price = false ) {
 
 				if( show_longname == "true" ){
 					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["harvest_city_en"]+"-"+json[idx]["harvest_area_en"]
-						+ "-" + json[idx]["cultivar_en"] + "-" + json[idx]["cleaness"] 
+						+( (json[idx]["harvest_field_en"] == undefined || json[idx]["harvest_field_en"] == "")?"":("-"+json[idx]["harvest_field_en"]) )
+						+ "-" + json[idx]["cultivar_en"]
+						+( (json[idx]["cleaness"] == undefined || json[idx]["cleaness"] == "")?"":("-"+json[idx]["cleaness"]) )
 						+( (json[idx]["roast_type"] == undefined)?"":("-"+json[idx]["roast_type"]) )
 						+( (json[idx]["special_name_en"] == undefined)?"":("-"+json[idx]["special_name_en"]) )
 						+ "-" + json[idx]["process_type"] 
