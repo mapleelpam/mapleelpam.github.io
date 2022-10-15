@@ -116,7 +116,7 @@ function update_body( lang = "en",  show_price = false ) {
 					"<th> 型態 </th> \n" + 
 					"<th> 市/縣 </th> <th> 產地 </th> <th> 環境 </th> <th> 焙火形態 </th>\n";
 			table_string += "<th> 克/盒 </th> \n" ; 
-			if( show_price && show_unit_price == "true" ) { table_string += "<th>USD/600g</th>"; }
+			if( show_price && show_unit_price == "true" ) { table_string += "<th>NTD/600g</th>"; }
 			if( show_price ) { table_string += "<th>USD/Box</th>"; }
 			if( show_storage == "true" ) { table_string += "<th>in stock</th>"; }
 			if(show_longname == "true" ) 
@@ -199,9 +199,13 @@ function update_body( lang = "en",  show_price = false ) {
 					if( show_unit_price == "true" ) {
 						if( json[idx]["price_per_box"] == null || json[idx]["price_per_box"] == "0" ) {
 							table_string +=  "<td> N/A </td> \n"; 
+						} else  if (json[idx]["process_type"] == "YanCha" || json[idx]["process_type"] == "DanCong") {
+							table_string +=  "<td class=\"price\">¥" +  
+						 	(parseInt(json[idx]["price_per_box"]) / parseInt(json[idx]["gram_per_box"]) * 500 * 7.2 )
+							+ "</td> \n"; 
 						} else  {
 							table_string +=  "<td class=\"price\">$" +  
-						 	(parseInt(json[idx]["price_per_box"]) / parseInt(json[idx]["gram_per_box"]) * 600 )
+						 	(parseInt(json[idx]["price_per_box"]) / parseInt(json[idx]["gram_per_box"]) * 600 * 30 )
 							+ "</td> \n"; 
 						}
 
