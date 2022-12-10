@@ -269,7 +269,8 @@ function update_body( lang = "en",  show_price = false ) {
 				table_string +=  "<tr>\n";
 
 				if( show_longname == "true" ){
-					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["harvest_city_en"]+"-"+json[idx]["harvest_area_en"]
+					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["harvest_city_en"]
+						+( (json[idx]["harvest_area_en"] == undefined || json[idx]["harvest_area_en"] == "")?"":("-"+json[idx]["harvest_area_en"]) )
 						+( (json[idx]["harvest_field_en"] == undefined || json[idx]["harvest_field_en"] == "")?"":("-"+json[idx]["harvest_field_en"]) )
 						+ "-" + json[idx]["cultivar_en"]
 						+( (json[idx]["cleaness"] == undefined || json[idx]["cleaness"] == "")?"":("-"+json[idx]["cleaness"]) )
