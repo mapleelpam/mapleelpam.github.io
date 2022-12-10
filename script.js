@@ -231,7 +231,7 @@ function update_body( lang = "en",  show_price = false ) {
 					table_string +=  "<td>" + json[idx]["arrival_date"] + " </td> \n";
 
 				} else {
-					table_string +=  "<td>" + json[idx]["solar_term"] + " </td> \n";
+					table_string +=  "<td>" +(json[idx]["solar_term"] == undefined ? "" : json[idx]["solar_term"]) + " </td> \n";
 					table_string +=  "<td>" + json[idx]["harvest_date"] + " </td> \n";
 				}
 
@@ -284,7 +284,7 @@ function update_body( lang = "en",  show_price = false ) {
 					table_string +=  "<td>" + json[idx]["cultivar_en"] + " </td> \n";
 					table_string +=  "<td>" + json[idx]["process_type"] + ( (json[idx]["special_recommend"] == undefined)?"":"*" ) + " </td> \n";
 					table_string +=  "<td>" + json[idx]["harvest_city_en"] + " </td> \n";
-					table_string +=  "<td>" + json[idx]["harvest_area_en"] + " </td> \n"; 
+					table_string +=  "<td>" + (json[idx]["harvest_area_en"] == undefined? "": json[idx]["harvest_area_en"]) + " </td> \n"; 
 					table_string +=  "<td>" + json[idx]["cleaness"] + " </td> \n";
 					table_string +=  "<td>" + (json[idx]["roast_type"] == undefined ? " " : json[idx]["roast_type"] ) + " </td> \n";
 				}
