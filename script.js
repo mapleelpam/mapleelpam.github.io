@@ -186,7 +186,7 @@ function update_body( lang = "en",  show_price = false ) {
 					table_string +=  "<td>" + pt_dict[json[idx]["process_type"]] + ( (json[idx]["special_recommend"] == undefined)?"":"*" ) + " </td> \n";
 
 					table_string +=  "<td>" + json[idx]["harvest_city_zh"] + " </td> \n";
-					table_string +=  "<td>" + json[idx]["harvest_area_zh"] + " </td> \n";
+					table_string +=  "<td>" +(json[idx]["harvest_area_zh"] == undefined ? "" :json[idx]["harvest_area_zh"] ) + " </td> \n";
 
 					table_string +=  "<td>" +( env_dict[json[idx]["cleaness"]] == undefined ? "" : env_dict[json[idx]["cleaness"]] ) + " </td> \n";
 					table_string +=  "<td>" + (json[idx]["roast_type"] == undefined ? " " : roast_dict[json[idx]["roast_type"]] ) + " </td> \n";
