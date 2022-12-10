@@ -164,8 +164,12 @@ function update_body( lang = "en",  show_price = false ) {
 				table_string +=  "<tr>\n";
 
 				if( show_longname == "true" ){
-					table_string +=  "<td>" + json[idx]["harvest_date"] +"-"+json[idx]["solar_term"] 
-						+"-"+json[idx]["harvest_city_zh"]+"-"+json[idx]["harvest_area_zh"]
+					table_string +=  "<td>" + json[idx]["harvest_date"] +
+
+						((json[idx]["solar_term"] == undefined )? "": "-"+json[idx]["solar_term"] ) 
+						+"-"+json[idx]["harvest_city_zh"]
+
+						+( (json[idx]["harvest_area_zh"] == undefined || json[idx]["harvest_area_zh"] == "")?"":("-"+json[idx]["harvest_area_zh"]) )
 
 						+( (json[idx]["harvest_field_zh"] == undefined || json[idx]["harvest_field_zh"] == "")?"":("-"+json[idx]["harvest_field_zh"]) )
 
