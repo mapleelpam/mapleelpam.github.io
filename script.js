@@ -211,38 +211,10 @@ function update_body( lang = "en",  show_price = false ) {
 				table_string +=  "<th> 節氣 </th>\n"+ " <th>採摘/制作</th>";
 			table_string +=  "<th>Instagram</th> </thead> \n <tbody> ";
 
-			var pt_dict = { "HongCha": "紅茶",
-					"BaoZhong": "包種",
-					"YanCha": "岩茶",
-					"DanCong": "單欉",
-					"CharcoalBaoZhong": "炭焙包種",
-					"Oolong": "烏龍",
-					"RolledOolong": "球形烏龍",
-					"DongDing": "凍頂烏龍",
-					"TGY": "鐵觀音",
-					"CharcoalTGY": "炭焙鐵觀音",
-					"BianCha": "扁茶",
-					"Green": "綠茶",
-					"WhiteTea": "白茶",
-					"OrientalBeauty":"白毫烏龍" };
-
-			var env_dict ={ "Wild": "野放",
-					"SemiWild": "半野",
-					"PureWild": "純野",
-					"WildOldBush": "野放老欉",
-					"PureWildOldBush": "純野老欉",
-					"WildTallBush": "野放高欉"
-					 };
-			
 			var roast_dict ={ 
 					"LightCharcoalRoast": "炭焙(輕)",
 					"MidCharcoalRoast": "炭焙(中)",
 					"HeavyCharcoalRoast": "炭焙(重)"
-					 };
-			var roast_dict_longname ={ 
-					"LightCharcoalRoast": "輕炭焙",
-					"MidCharcoalRoast": "中炭焙",
-					"HeavyCharcoalRoast": "重炭焙"
 					 };
 
 			for( var idx in json ) {
@@ -250,24 +222,6 @@ function update_body( lang = "en",  show_price = false ) {
 				table_string +=  "<tr>\n";
 
 				if( show_longname == "true" ){
-					/*
-					table_string +=  "<td>" + json[idx]["harvest_date"] +
-
-						((json[idx]["solar_term"] == undefined )? "": "-"+json[idx]["solar_term"] ) 
-						+"-"+json[idx]["harvest_city_zh"]
-
-						+( (json[idx]["harvest_area_zh"] == undefined || json[idx]["harvest_area_zh"] == "")?"":("-"+json[idx]["harvest_area_zh"]) )
-
-						+( (json[idx]["harvest_field_zh"] == undefined || json[idx]["harvest_field_zh"] == "")?"":("-"+json[idx]["harvest_field_zh"]) )
-
-						+ "-" + json[idx]["cultivar_zh"]  
-						+( env_dict[json[idx]["cleaness"]] == undefined ? "" : "-" + env_dict[json[idx]["cleaness"]] )
-						+( (json[idx]["roast_type"] == undefined)?"":("-"+roast_dict_longname[json[idx]["roast_type"]]) )
-						+( (json[idx]["special_name_zh"] == undefined)?"":("-"+json[idx]["special_name_zh"]) ) 
-						+ "-" + pt_dict[json[idx]["process_type"]]
-						+( (json[idx]["special_recommend"] == undefined)?"":"*" )
-						+ " </td> \n";
-					*/
 					table_string += "<td>" + json[idx]["fullname_zh"] +( (json[idx]["special_recommend"] == undefined)?"":"*" ) + " </td>\n";
 
 				} else {
