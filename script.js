@@ -126,6 +126,7 @@ function scan_json_file_and_update_options()
 			ele: '#cultivars-select',
 			options: cultivarOptions,
 			multiple: true ,
+			selectedValue: filter_cultivars,
 			placeholder: "All Cultivars"
 		}); 
 	});
@@ -432,7 +433,6 @@ function update_radio_buttons()
 		} 
 	}
 	if( show_longname!= null && lang != "none" ) { 
-		console.log(" show_longname = "+show_longname );
 		if( show_longname == "false" ) { 
 			$("#tabledetail").prop("checked", true);
 		} else if (show_longname == "true" ) {
