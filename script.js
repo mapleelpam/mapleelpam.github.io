@@ -57,6 +57,35 @@ function update_url_parameters()
 	window.history.replaceState(null, null, para_string); 
 }
 
+function scan_json_file_and_update_options()
+{
+	$.getJSON("db.json"). then( function(json) {
+		var all_years = [];
+
+		for( var idx in json ) {
+			if( $.inArray( json[idx]["year"], all_years ) == -1 ) 
+				all_years.push( json[idx]["year"] );
+		}
+		all_years.sort();
+		all_years.reverse();
+
+		var yearOptions = [];
+		for( var a_year in all_years ) {
+			yearOptions.push( { label: all_years[a_year], value: all_years[a_year], checked: true} );
+		}
+
+		VirtualSelect.init({
+			ele: '#years-select',
+			options: yearOptions,
+			multiple: true ,
+			placeholder: "All Years",
+			selectedValue: filter_years 
+		});
+
+	});
+
+}
+
 function update_body( lang = "en",  show_price = false ) {
 	var table_string = "";
 
@@ -389,7 +418,10 @@ function update_radio_buttons()
 }
 
 $(document).ready(function () { 
+	scan_json_file_and_update_options();
+
 	update_html_views();
+
 
 	$(".language").click(function() {
 		window.lang = this.value; 
@@ -432,5 +464,6 @@ $(document).ready(function () {
 		update_url_parameters(); 
 		update_html_views();
 	});
+
 } );
 
