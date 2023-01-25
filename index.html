@@ -55,58 +55,67 @@
 
 <body>
 	<div class="bodyheader">
-		<div class="translateWrap" >
+		<div class="translateWrap row justify-content-start" >
 			<div class="btn-group" role="group" aria-label="langauge">
-				<label class="btn btn-light" disabled>Language:</label>
-				<input type="radio" class="btn-check language" name="btnradio-lang" id="en" autocomplete="off" value="en" >
-				<label class="btn btn-outline-secondary" for="en">English</label>
+				<label class="btn btn-light col col-2" disabled style="text-align: right">Language:</label>
 
-				<input type="radio" class="btn-check language" name="btnradio-lang" id="zh" autocomplete="off" value="zh" >
-				<label class="btn btn-outline-secondary" for="zh">中文</label> 
+				<div class="col col-4 justify-content-start">
+					<input type="radio" class="btn-check language" name="btnradio-lang" id="en" autocomplete="off" value="en" >
+					<label class="btn btn-outline-secondary" for="en">English</label>
+
+					<input type="radio" class="btn-check language" name="btnradio-lang" id="zh" autocomplete="off" value="zh" >
+					<label class="btn btn-outline-secondary" for="zh">中文</label> 
+				</div>
+				<div class="col col-6"> </div>
 			</div>
 		</div>
-		<div class="longnameWrap" >
+		<div class="longnameWrap row justify-content-start" >
 			<div class="btn-group" role="group" aria-label="viewType">
-				<label class="btn btn-light" disabled>View:</label>
-				<input type="radio" class="btn-check viewtype" name="btnradio-view-type" id="tabledetail" autocomplete="off" value="false" >
-				<label class="btn btn-outline-info" for="tabledetail">Detail Table</label>
+				<label class="btn btn-light col col-2" disabled style="text-align: right">View:</label>
 
-				<input type="radio" class="btn-check viewtype" name="btnradio-view-type" id="longname" autocomplete="off" value="true" >
-				<label class="btn btn-outline-info" for="longname">Long Name</label> 
+				<div class="col col-4">
+					<input type="radio" class="btn-check viewtype" name="btnradio-view-type" id="tabledetail" autocomplete="off" value="false" >
+					<label class="btn btn-outline-info" for="tabledetail">Detail Table</label>
+
+					<input type="radio" class="btn-check viewtype" name="btnradio-view-type" id="longname" autocomplete="off" value="true" >
+					<label class="btn btn-outline-info" for="longname">Long Name</label> 
+				</div>
+				<div class="col col-6"> </div>
 			</div>
 		</div>
 
-		<div class="sortByWhat" >
+		<div class="sortByWhat row justify-content-start" >
 			<div class="btn-group" role="group" aria-label="Sort">
-				<label class="btn btn-light" disabled>Sort By:</label>
-				<input type="radio" class="btn-check sortBy" name="btnradio-sortby" id="sortByArrivalDate" autocomplete="off" value="arrival" >
-				<label class="btn btn-outline-primary" for="sortByArrivalDate">Arrival Date</label>
+				<label class="btn btn-light col col-2" disabled style="text-align: right">Sort By:</label>
 
-				<input type="radio" class="btn-check sortBy" name="btnradio-sortby" id="sortByHarvestDate" autocomplete="off" value="harvest" >
-				<label class="btn btn-outline-primary" for="sortByHarvestDate">Harvest Date</label>
+				<div class="col col-10">
+					<input type="radio" class="btn-check sortBy" name="btnradio-sortby" id="sortByArrivalDate" autocomplete="off" value="arrival" >
+					<label class="btn btn-outline-primary" for="sortByArrivalDate">Arrival Date</label>
 
-				<input type="radio" class="btn-check sortBy" name="btnradio-sortby" id="sortByCraftType" autocomplete="off" value="craft" >
-				<label class="btn btn-outline-primary" for="sortByCraftType">Craft Type</label>
+					<input type="radio" class="btn-check sortBy" name="btnradio-sortby" id="sortByHarvestDate" autocomplete="off" value="harvest" >
+					<label class="btn btn-outline-primary" for="sortByHarvestDate">Harvest Date</label>
 
-				<input type="radio" class="btn-check sortBy" name="btnradio-sortby" id="sortByCultivar" autocomplete="off" value="cultivar" >
-				<label class="btn btn-outline-primary" for="sortByCultivar">Cultivar</label>
+					<input type="radio" class="btn-check sortBy" name="btnradio-sortby" id="sortByCraftType" autocomplete="off" value="craft" >
+					<label class="btn btn-outline-primary" for="sortByCraftType">Craft Type</label>
+
+					<input type="radio" class="btn-check sortBy" name="btnradio-sortby" id="sortByCultivar" autocomplete="off" value="cultivar" >
+					<label class="btn btn-outline-primary" for="sortByCultivar">Cultivar</label>
+				</div>
 			</div>
-		</div>
-
-		<div class="showOnly">
-			<label class="btn btn-light" disabled>Special Recommend:</label>
-			<input type="checkbox" data-toggle="switchbutton" id="showSpecialRecommendOnly">
-
 		</div> 
-
 		<div>
-			<label class="btn btn-light" disabled>Years:</label>
-			<div id="years-select"></div> 
+			<label class="btn btn-light col col-2" disabled style="text-align: right">Years:</label>
+			<div class="col col-4" id="years-select"></div> 
 		</div>
 		
 		<div>
-			<label class="btn btn-light" disabled>Craft:</label>
-			<div id="crafts-select"></div> 
+			<label class="btn btn-light col col-2" disabled style="text-align: right">Craft:</label>
+			<div class="col col-4" id="crafts-select"></div> 
+		</div> 
+
+		<div class="showOnly">
+				<label class="btn btn-light" disabled>Special Recommend:</label>
+				<input type="checkbox" data-toggle="switchbutton" id="showSpecialRecommendOnly">
 		</div> 
 
 	</div>
