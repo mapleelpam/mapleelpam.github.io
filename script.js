@@ -7,7 +7,7 @@ var show_longname= urlParams.get('longname') == null ? "true" : urlParams.get('l
 
 var show_storage = urlParams.get('storage') == null ? "false" : urlParams.get('storage');
 
-var filter_year = urlParams.get('filter_year') == null ? "none" : urlParams.get('filter_year');
+var filter_years_string = urlParams.get('filter_years') == null ? "none" : urlParams.get('filter_years');
 
 var sort_by = urlParams.get('sort_by') == null ? "sortByArrivalDate" : urlParams.get('sort_by');
 
@@ -15,17 +15,34 @@ var show_unit_price = urlParams.get('unitprice') == null ? "none" : urlParams.ge
 
 var show_special_recommend_only = urlParams.get('recommendonly') == null ? "none" : urlParams.get('recommendonly');
 
+var filter_crafts_string = urlParams.get('filter_crafts') == null ? "none" : urlParams.get('filter_crafts');
+
 var filter_type = urlParams.get('filter_type');
-console.log(" filter_type"+filter_type);
 
 var filter_cultivar_string = urlParams.get('filter_cultivar');
 var filter_cultivar = null;
 if( filter_cultivar_string != null ) {
 	filter_cultivar = filter_cultivar_string.split(" ");	
+} 
+
+var filter_years = filter_years_string.split(",");
+var filter_crafts = filter_crafts_string.split(",");
+
+function update_filter_years_string()
+{
+	var result = "";
+	for( yrs in filter_years )
+		result += (result == "" ? "" : ",") + filter_years[yrs]; 
+	filter_years_string = ( result == "") ? "none" : result;
 }
-console.log(" filter_cultivar_string "+filter_cultivar_string);
-console.log(" filter_cultivar "+filter_cultivar);
-console.log(" show_storage - "+show_storage);
+
+function update_filter_crafts_string()
+{
+	var result = "";
+	for( idx in filter_crafts )
+		result += (result == "" ? "" : ",") + filter_crafts[idx]; 
+	filter_crafts_string = ( result == "") ? "none" : result;
+}
 
 function update_url_parameters()
 {
@@ -33,14 +50,8 @@ function update_url_parameters()
 	if( sort_by != null )	para_string += "&sort_by="+sort_by;
 	if( show_special_recommend_only != null )	para_string += "&recommendonly="+show_special_recommend_only;
 	if( filter_type != null )	para_string += "&filter_type="+filter_type;
-	if( filter_year != null )	para_string += "&filter_year="+filter_year;
-	if( filter_cultivar != null ) {
-		filter_cultivar_string = "";
-		for( var idx in filter_cultivar ) {
-			filter_cultivar_string += (idx == 0 ? "" : "+") + filter_cultivar[idx]; 
-		}
-		para_string += "&filter_cultivar="+filter_cultivar_string;
-	}
+	if( filter_years_string != null || filter_years_string == "none")	para_string += "&filter_years="+filter_years_string;
+	if( filter_crafts_string != null || filter_crafts_string == "none")	para_string += "&filter_crafts="+filter_crafts_string;
 
 	console.log( "para_string" + para_string );
 	window.history.replaceState(null, null, para_string); 
@@ -50,32 +61,23 @@ function update_body( lang = "en",  show_price = false ) {
 	var table_string = "";
 
 	$.getJSON("db.json"). then( function(json) {
-		if( filter_type != null ) {
+		if( filter_years_string != null && filter_years_string!= "none" ) {
 			for( var idx in json ) {
-				if( json[idx]["process_type"] != filter_type ) {
+				if( $.inArray( json[idx]["year"], filter_years ) == -1 ) {
 					json[idx] = undefined;	
 				}
 			} 
 		}
-		if( filter_year != null && filter_year != "none" ) {
+		if( filter_crafts_string != null && filter_crafts_string!= "none" ) {
 			for( var idx in json ) {
-				if( json[idx]["year"] != filter_year ) {
-					json[idx] = undefined;	
-				}
-			} 
-		}
-		if( filter_cultivar != null ) {
-			for( var idx in json ) {
-				//if( json[idx]["cultivar_en"] != filter_cultivar) {
-
-				if( filter_cultivar.includes( json[idx]["cultivar_en"] ) == false ) {
+				if(json[idx] != undefined && $.inArray( json[idx]["process_type"], filter_crafts ) == -1 ) {
 					json[idx] = undefined;	
 				}
 			} 
 		}
 		if( show_special_recommend_only == "true" ) {
 			for( var idx in json ) {
-				if( json[idx]["special_recommend"] != "true") {
+				if(json[idx] != undefined && json[idx]["special_recommend"] != "true") {
 					json[idx] = undefined;	
 				}
 			} 
@@ -317,6 +319,7 @@ function update_body( lang = "en",  show_price = false ) {
 		}
 		document.getElementsByClassName('main')[0].innerHTML = table_string ;
 		
+		/*
 		$(".filterYear").click(function() {
 			var btn_value= $(this).attr("value"); 
 			filter_year= btn_value;
@@ -325,6 +328,7 @@ function update_body( lang = "en",  show_price = false ) {
 			update_body( lang, false );
 			location.reload();
 		});
+		*/
 	
 		$("#keyword").keyup(function(){
 //			$("#div").html($("#keyword").val())
@@ -388,20 +392,19 @@ $(document).ready(function () {
 	update_html_views();
 
 	$(".language").click(function() {
-		window.lang = $(this).attr("value"); 
+		window.lang = this.value; 
 		
 		update_url_parameters(); 
 		update_html_views();
 	});
 	$(".viewtype").click(function() {
-		var btn_longname = $(this).attr("value"); 
-		show_longname = $(this).attr("value"); 
+		show_longname = this.value; 
 
 		update_url_parameters(); 
 		update_html_views();
 	});
 	$(".sortBy").click(function() {
-		sort_by = $(this).attr("value"); 
+		sort_by = this.value; 
 
 		update_url_parameters(); 
 		update_html_views();
@@ -412,6 +415,20 @@ $(document).ready(function () {
 		else
 			show_special_recommend_only = "false";
 
+		update_url_parameters(); 
+		update_html_views();
+	});
+	$('#years-select').change(function() {
+		filter_years = this.value; 
+
+		update_filter_years_string(); 
+		update_url_parameters(); 
+		update_html_views();
+	});
+	$('#crafts-select').change(function() {
+		filter_crafts = this.value; 
+
+		update_filter_crafts_string(); 
 		update_url_parameters(); 
 		update_html_views();
 	});
