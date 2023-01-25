@@ -71,7 +71,7 @@ function scan_json_file_and_update_options()
 
 		var yearOptions = [];
 		for( var a_year in all_years ) {
-			yearOptions.push( { label: all_years[a_year], value: all_years[a_year], checked: true} );
+			yearOptions.push( { label: all_years[a_year], value: all_years[a_year] } );
 		}
 
 		VirtualSelect.init({
@@ -82,6 +82,27 @@ function scan_json_file_and_update_options()
 			selectedValue: filter_years 
 		});
 
+
+		var process_types = [];
+		for( var idx in json ) {
+			if( $.inArray( json[idx]["process_type"], process_types ) == -1 ) 
+				process_types.push( json[idx]["process_type"] );
+		}
+
+		console.log(" process type " + process_types );
+
+		var craftOptions = [];
+		for( var a_process_type in process_types ) {
+			craftOptions.push( { label: process_types[a_process_type] , value: process_types[a_process_type] } );
+		}
+
+		VirtualSelect.init({
+			ele: '#crafts-select',
+			options: craftOptions,
+			multiple: true ,
+			selectedValue: filter_crafts,
+			placeholder: "All Craft Types"
+		}); 
 	});
 
 }
