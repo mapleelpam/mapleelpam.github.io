@@ -7,7 +7,6 @@ var show_longname= urlParams.get('longname') == null ? "true" : urlParams.get('l
 
 var show_storage = urlParams.get('storage') == null ? "false" : urlParams.get('storage');
 
-var filter_years_string = urlParams.get('filter_years') == null ? "none" : urlParams.get('filter_years');
 
 var sort_by = urlParams.get('sort_by') == null ? "sortByArrivalDate" : urlParams.get('sort_by');
 
@@ -15,18 +14,13 @@ var show_unit_price = urlParams.get('unitprice') == null ? "none" : urlParams.ge
 
 var show_special_recommend_only = urlParams.get('recommendonly') == null ? "none" : urlParams.get('recommendonly');
 
+var filter_years_string = urlParams.get('filter_years') == null ? "none" : urlParams.get('filter_years');
 var filter_crafts_string = urlParams.get('filter_crafts') == null ? "none" : urlParams.get('filter_crafts');
-
-var filter_type = urlParams.get('filter_type');
-
-var filter_cultivar_string = urlParams.get('filter_cultivar');
-var filter_cultivar = null;
-if( filter_cultivar_string != null ) {
-	filter_cultivar = filter_cultivar_string.split(" ");	
-} 
+var filter_cultivars_string = urlParams.get('filter_cultivars') == null ? "none" : urlParams.get('filter_cultivars');
 
 var filter_years = filter_years_string.split(",");
 var filter_crafts = filter_crafts_string.split(",");
+var filter_cultivars = filter_cultivars_string.split(",");
 
 function update_filter_years_string()
 {
@@ -44,14 +38,23 @@ function update_filter_crafts_string()
 	filter_crafts_string = ( result == "") ? "none" : result;
 }
 
+function update_filter_cultivars_string()
+{
+	var result = "";
+	for( idx in filter_cultivars)
+		result += (result == "" ? "" : ",") + filter_cultivars[idx]; 
+	filter_cultivars_string = ( result == "") ? "none" : result;
+}
+
 function update_url_parameters()
 {
 	para_string ="?lang="+window.lang+"&longname="+show_longname;
 	if( sort_by != null )	para_string += "&sort_by="+sort_by;
 	if( show_special_recommend_only != null )	para_string += "&recommendonly="+show_special_recommend_only;
-	if( filter_type != null )	para_string += "&filter_type="+filter_type;
+
 	if( filter_years_string != null || filter_years_string == "none")	para_string += "&filter_years="+filter_years_string;
 	if( filter_crafts_string != null || filter_crafts_string == "none")	para_string += "&filter_crafts="+filter_crafts_string;
+	if( filter_cultivars_string != null || filter_cultivars_string == "none")	para_string += "&filter_cultivars="+filter_cultivars_string;
 
 	console.log( "para_string" + para_string );
 	window.history.replaceState(null, null, para_string); 
@@ -60,8 +63,10 @@ function update_url_parameters()
 function scan_json_file_and_update_options()
 {
 	$.getJSON("db.json"). then( function(json) {
-		var all_years = [];
 
+		// update years from db
+
+		var all_years = []; 
 		for( var idx in json ) {
 			if( $.inArray( json[idx]["year"], all_years ) == -1 ) 
 				all_years.push( json[idx]["year"] );
@@ -82,14 +87,13 @@ function scan_json_file_and_update_options()
 			selectedValue: filter_years 
 		});
 
+		// update process types / craft type
 
 		var process_types = [];
 		for( var idx in json ) {
 			if( $.inArray( json[idx]["process_type"], process_types ) == -1 ) 
 				process_types.push( json[idx]["process_type"] );
 		}
-
-		console.log(" process type " + process_types );
 
 		var craftOptions = [];
 		for( var a_process_type in process_types ) {
@@ -102,6 +106,27 @@ function scan_json_file_and_update_options()
 			multiple: true ,
 			selectedValue: filter_crafts,
 			placeholder: "All Craft Types"
+		}); 
+
+		// update cultivars 
+
+		var cultivars = [];
+		for( var idx in json ) {
+			if( $.inArray( json[idx]["cultivar_en"], cultivars) == -1 ) 
+				cultivars.push( json[idx]["cultivar_en"] );
+		}
+		cultivars.sort();
+
+		var cultivarOptions = [];
+		for( var idx in cultivars ) {
+			cultivarOptions.push( { label: cultivars[idx] , value: cultivars[idx] } );
+		}
+
+		VirtualSelect.init({
+			ele: '#cultivars-select',
+			options: cultivarOptions,
+			multiple: true ,
+			placeholder: "All Cultivars"
 		}); 
 	});
 
@@ -121,6 +146,13 @@ function update_body( lang = "en",  show_price = false ) {
 		if( filter_crafts_string != null && filter_crafts_string!= "none" ) {
 			for( var idx in json ) {
 				if(json[idx] != undefined && $.inArray( json[idx]["process_type"], filter_crafts ) == -1 ) {
+					json[idx] = undefined;	
+				}
+			} 
+		}
+		if( filter_cultivars_string != null && filter_cultivars_string!= "none" ) {
+			for( var idx in json ) {
+				if(json[idx] != undefined && $.inArray( json[idx]["cultivar_en"], filter_cultivars ) == -1 ) {
 					json[idx] = undefined;	
 				}
 			} 
@@ -369,17 +401,6 @@ function update_body( lang = "en",  show_price = false ) {
 		}
 		document.getElementsByClassName('main')[0].innerHTML = table_string ;
 		
-		/*
-		$(".filterYear").click(function() {
-			var btn_value= $(this).attr("value"); 
-			filter_year= btn_value;
-			show_special_recommend_only = "false";
-			update_url_parameters();
-			update_body( lang, false );
-			location.reload();
-		});
-		*/
-	
 		$("#keyword").keyup(function(){
 //			$("#div").html($("#keyword").val())
 			//this._show_price = false;
@@ -482,6 +503,13 @@ $(document).ready(function () {
 		filter_crafts = this.value; 
 
 		update_filter_crafts_string(); 
+		update_url_parameters(); 
+		update_html_views();
+	});
+	$('#cultivars-select').change(function() {
+		filter_cultivars= this.value; 
+
+		update_filter_cultivars_string(); 
 		update_url_parameters(); 
 		update_html_views();
 	});
