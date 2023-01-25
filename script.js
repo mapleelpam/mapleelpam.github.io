@@ -250,6 +250,7 @@ function update_body( lang = "en",  show_price = false ) {
 				table_string +=  "<tr>\n";
 
 				if( show_longname == "true" ){
+					/*
 					table_string +=  "<td>" + json[idx]["harvest_date"] +
 
 						((json[idx]["solar_term"] == undefined )? "": "-"+json[idx]["solar_term"] ) 
@@ -266,6 +267,8 @@ function update_body( lang = "en",  show_price = false ) {
 						+ "-" + pt_dict[json[idx]["process_type"]]
 						+( (json[idx]["special_recommend"] == undefined)?"":"*" )
 						+ " </td> \n";
+					*/
+					table_string += "<td>" + json[idx]["fullname_zh"] +( (json[idx]["special_recommend"] == undefined)?"":"*" ) + " </td>\n";
 
 				} else {
 					table_string +=  "<td>" + json[idx]["cultivar_zh"] + " </td> \n";
