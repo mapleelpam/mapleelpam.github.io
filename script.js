@@ -133,7 +133,7 @@ function scan_json_file_and_update_options()
 
 }
 
-function update_body( lang = "en",  show_price = false ) {
+function update_body( show_price = false ) {
 	var table_string = "";
 
 	$.getJSON("db.json"). then( function(json) {
@@ -364,10 +364,10 @@ function update_body( lang = "en",  show_price = false ) {
 			//this._show_price = false;
 			if( $("#keyword").val() == "teamapletw" ) {
 				this._show_price = true;
-				update_body( lang, this._show_price );
+				update_body( this._show_price );
 			} else if(this. _show_price == true ) {
 				this._show_price = false;
-				update_body( lang, this._show_price ); 
+				update_body( this._show_price ); 
 			}
 		});
 	});
@@ -376,7 +376,7 @@ function update_body( lang = "en",  show_price = false ) {
 
 function update_html_views()
 {
-	update_body( lang, false );
+	update_body( false );
 	update_radio_buttons();
 }
 
@@ -423,7 +423,7 @@ $(document).ready(function () {
 
 
 	$(".language").click(function() {
-		window.lang = this.value; 
+		window.lang = lang = this.value; 
 		
 		update_url_parameters(); 
 		update_html_views();
