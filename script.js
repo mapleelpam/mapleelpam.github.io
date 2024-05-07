@@ -13,6 +13,7 @@ var sort_by = urlParams.get('sort_by') == null ? "sortByArrivalDate" : urlParams
 var show_unit_price = urlParams.get('unitprice') == null ? "none" : urlParams.get('unitprice');
 
 var show_special_recommend_only = urlParams.get('recommendonly') == null ? "none" : urlParams.get('recommendonly');
+var hide_out_of_stock = urlParams.get('hideoutofstock') == null ? "true" : urlParams.get('hideoutofstock');
 
 var filter_years_string = urlParams.get('filter_years') == null ? "none" : urlParams.get('filter_years');
 var filter_crafts_string = urlParams.get('filter_crafts') == null ? "none" : urlParams.get('filter_crafts');
@@ -51,6 +52,7 @@ function update_url_parameters()
 	para_string ="?lang="+window.lang+"&longname="+show_longname;
 	if( sort_by != null )	para_string += "&sort_by="+sort_by;
 	if( show_special_recommend_only != null )	para_string += "&recommendonly="+show_special_recommend_only;
+	if( hide_out_of_stock != null )	para_string += "&hideoutofstock="+hide_out_of_stock;
 
 	if( filter_years_string != null || filter_years_string == "none")	para_string += "&filter_years="+filter_years_string;
 	if( filter_crafts_string != null || filter_crafts_string == "none")	para_string += "&filter_crafts="+filter_crafts_string;
@@ -161,6 +163,14 @@ function update_body( show_price = false ) {
 		if( show_special_recommend_only == "true" ) {
 			for( var idx in json ) {
 				if(json[idx] != undefined && json[idx]["special_recommend"] != "true") {
+					json[idx] = undefined;	
+				}
+			} 
+
+		}
+		if( hide_out_of_stock == "true" ) {
+			for( var idx in json ) {
+				if(json[idx] != undefined && json[idx]["status"] == "sold") {
 					json[idx] = undefined;	
 				}
 			} 
@@ -414,6 +424,13 @@ function update_radio_buttons()
 			$("#showSpecialRecommendOnly").prop("checked", false);
 		}
 	}
+	if( hide_out_of_stock != null && hide_out_of_stock != "none" ) { 
+		if( hide_out_of_stock == "true" ) {
+			$("#hideOutOfStock").prop("checked", true);
+		} else {
+			$("#hideOutOfStock").prop("checked", false);
+		}
+	}
 }
 
 $(document).ready(function () { 
@@ -445,6 +462,15 @@ $(document).ready(function () {
 			show_special_recommend_only = "true";
 		else
 			show_special_recommend_only = "false";
+
+		update_url_parameters(); 
+		update_html_views();
+	});
+	$("#hideOutOfStock"). change(function() { 
+		if( $(this).prop("checked") ) 
+			hide_out_of_stock = "true";
+		else
+			hide_out_of_stock = "false";
 
 		update_url_parameters(); 
 		update_html_views();
